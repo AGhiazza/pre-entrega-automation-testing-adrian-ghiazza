@@ -2,8 +2,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-def test_LO01_login_exitoso(login_in_driver):
-    driver = login_in_driver
+def test_LO01_login_exitoso(driver_logged):
+    driver = driver_logged
     WebDriverWait (driver, 5).until(
         EC.url_contains("/inventory.html")
     )
