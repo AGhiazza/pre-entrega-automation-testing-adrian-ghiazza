@@ -22,13 +22,10 @@ El objetivo de este proyecto es aprender tecnologías y procesos de automatizaci
 
 1. Instalar [Python](https://www.python.org/downloads/) y [Visual Studio Code](https://code.visualstudio.com/).
 2. Abrir la carpeta raíz del proyecto en Visual Studio Code.
-3. Abrir una terminal (`Terminal > Nueva Terminal`) y ejecutar los siguientes comandos:
+3. Abrir una terminal (`Terminal > Nueva Terminal`) y ejecutar el siguientes comando para instalar todas las dependencias:
 
 ```bash
-pip install pytest
-pip install selenium
-pip install webdriver-manager
-pip install pytest-html
+pip install -r requirements.txt
 ```
 
 
