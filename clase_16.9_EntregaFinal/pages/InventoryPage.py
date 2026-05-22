@@ -1,11 +1,22 @@
 from selenium.webdriver.common.by import By 
 
-def agregar_al_carrito(driver, numProd): #Función para agregar un producto al carrito, numProd recibe el numero del indice para elegir cual producto agregar.
-    productos = driver.find_elements(By.CLASS_NAME, "inventory_item") #guarda todos los productos como lista usando find_elements en la variable "productos"
-    producto = productos [numProd] #de la lista de productos guarda el producto segun el indice recibido
-    anadirCarrito = producto.find_element(By.CLASS_NAME, "btn_inventory") #busca el elemento del boton de añadir al carrito
-    anadirCarrito.click()   #clickea el boton
 
-def ir_al_carrito(driver): #función para clickear en el botón de ir al carrito
-    botonCarrito = driver.find_element(By.CLASS_NAME, "shopping_cart_link") #busca el botón para ir al carrito
-    botonCarrito.click()
+class InventoryPage:
+    def __init__(self, driver):
+    
+        self.driver = driver
+
+        #Selectores
+        self.item_list = (By.CLASS_NAME, "inventory_item")
+        self.add_to_cart = (By.CLASS_NAME, "btn_inventory")
+        self.go_to_cart = (By.CLASS_NAME, "shopping_cart_link")
+        
+    def agregar_al_carrito(self, numProd): #Función para agregar un producto al carrito, numProd recibe el numero del indice para elegir cual producto agregar.
+        productos = self.driver.find_elements(*self.item_list)
+        producto = productos [numProd] #de la lista de productos guarda el producto segun el indice recibido
+        producto.find_element(*self.add_to_cart).click()
+      
+
+    def ir_al_carrito(self): #función para clickear en el botón de ir al carrito
+        self.driver.find_element(*self.go_to_cart).click() #busca el botón para ir al carrito
+

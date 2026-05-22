@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from funcAux.InventoryPage import agregar_al_carrito, ir_al_carrito
+from pages.InventoryPage import agregar_al_carrito, ir_al_carrito
 
 def test_CA01_cart_badge(driver_logged):    #Caso para verificar que se muestre el numero de productos cuando se agrega al menos 1 al carrito
     agregar_al_carrito(driver_logged, 0)    #llama a la función agregar_al_carrito y le dá el indice 0 para decirle que busque el primer producto
