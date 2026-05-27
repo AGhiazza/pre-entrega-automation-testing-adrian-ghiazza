@@ -26,7 +26,7 @@ https://www.saucedemo.com
 | Logo / Título | Class | `.app_logo` | `class="app_logo"` | Texto "Swag Labs" en el header |
 | Carrito | Class | `.shopping_cart_link` | `class="shopping_cart_link"` | Link al carrito de compras |
 | Badge carrito | Class | `.shopping_cart_badge` | `class="shopping_cart_badge"` | Indicador de cantidad de productos en el carrito |
-| Filtro | Class | `.product_sort_container` | `class="product_sort_container"` | Contenedor del filtro de ordenamiento |
+| Ordenar | Class | `.product_sort_container` | `class="product_sort_container"` | Contenedor del filtro de ordenamiento |
 
 ---
 
