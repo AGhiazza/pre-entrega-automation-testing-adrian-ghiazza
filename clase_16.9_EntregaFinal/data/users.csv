@@ -1,0 +1,4 @@
+usuario,contrasena,valido
+standard_user,secret_sauce,true
+usuario_incorrecto,secret_sauce,false
+standard_user,contrasena_incorrecta,false

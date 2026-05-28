@@ -72,6 +72,11 @@ class InventoryPage:
         producto = productos[numProd]
         return producto.find_element(*self.item_name).text
 
+    def obtener_descripcion_producto(self, numProd):
+        productos = self.driver.find_elements(*self.item_details)
+        producto = productos[numProd]
+        return producto.find_element(*self.item_desc).text
+
     def obtener_precio_producto(self, numProd):
         productos = self.driver.find_elements(*self.item_details)
         producto = productos[numProd]
@@ -86,6 +91,9 @@ class InventoryPage:
 
     def obtener_carrito(self):
         return self.driver.find_element(*self.go_to_cart)
+
+    def obtener_badge_carrito(self):
+        return self.driver.find_element(*self.cart_badge)
 
     def obtener_cantidad_carrito(self):
         return self.driver.find_element(*self.cart_badge).text

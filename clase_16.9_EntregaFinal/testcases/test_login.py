@@ -1,34 +1,8 @@
-'''
-from selenium.webdriver.support.ui import WebDriverWait #WebDriverWait hace esperas explicitas, el sistema espera un tiempo definido hasta que ocurra una cierta condición, 
-                                                        #si la condicion se cumple antes de que pase el tiempo definido, avanza ignorando el tiempo restante
-from selenium.webdriver.support import expected_conditions as EC #expected_conditions es un módulo que tiene condiciones predefinidas para usar con WebDriverWait. Por ejemplo "esperá hasta que pase X"
-                                                                 #Se usa el "as EC" para acortar expected_conditions, escribir EC = Expected_conditions
-from selenium.webdriver.common.by import By
-
-def test_LO01_login_exitoso(driver_logged): #Prueba de login, como ya hay una funcion auxiliar de logueo en driver_logged, se usa ese fixture y luego se suma un assert para verificar el login sea exitoso
-    driver = driver_logged #guarda el fixture en la variable local "driver" de esta funcion/test
-    WebDriverWait (driver, 5).until( #espera hasta 5 segundos o hasta que se cumpla la condicion definida abajo
-        EC.url_contains("/inventory.html")  #se indica que la condición esperada para la espera explicita es que la URL contenga "/inventory.html"
-                                            #El sistema espera entonces que aparezca "/inventory.html" en la URL o que pasen 5 segundos antes de avanzar
-    )
-    assert "/inventory.html" in driver.current_url, "No se visualiza la pagina del inventario" #verifica que la URL actual incluya "/inventory.html". 
-                                                                                               #Si no, el test falla con el mensaje de error "No se visualiza la pagina del inventario".
-
-
-def test_LO02_():
-def test_LO03_():
-def test_LO04_():
-def test_LO05_():
-'''
-
 from selenium.webdriver.support.ui import WebDriverWait #WebDriverWait hace esperas explicitas, el sistema espera un tiempo definido hasta que ocurra una cierta condición, 
                                                         #si la condicion se cumple antes de que pase el tiempo definido, avanza ignorando el tiempo restante
 from pages.LoginPage import LoginPage #Importa la clase LoginPage desde LoginPage.py adentro de la carpeta pages
 from selenium.webdriver.support import expected_conditions as EC #expected_conditions es un módulo que tiene condiciones predefinidas para usar con WebDriverWait. Por ejemplo "esperá hasta que pase X"
                                                                  #Se usa el "as EC" para acortar expected_conditions, escribir EC = Expected_conditions
-from selenium.webdriver.common.by import By 
- 
-
 
 def test_LO01_login_exitoso(driver):
     login_page = LoginPage(driver) # El objeto login_page almacena la clase LoginPage con el driver
