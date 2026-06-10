@@ -1,0 +1,13 @@
+[
+    {
+        "descripcion":"login_valido",
+        "valido":"true",
+        "email": "eve.holt@reqres.in",
+        "password": "cityslicka"
+    },
+    {
+        "descripcion":"login_sin_contrasena",   
+        "valido":"false",
+        "email": "eve.holt@reqres.in"
+    }
+]

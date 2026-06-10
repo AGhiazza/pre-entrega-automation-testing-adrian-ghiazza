@@ -14,3 +14,9 @@ def read_products_json():
     ruta = os.path.join(base, "data", "products.json")
     with open (ruta, encoding="utf-8") as file:
         return json.load(file)
+    
+def read_json_files(archivo):
+    base = os.path.dirname(os.path.dirname(__file__)) 
+    ruta = os.path.join(base, "data", archivo)
+    with open (ruta, encoding="utf-8") as file:
+        return json.load(file)

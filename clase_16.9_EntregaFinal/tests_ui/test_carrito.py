@@ -1,6 +1,6 @@
 from pages.InventoryPage import InventoryPage
 from pages.CartPage import CartPage
-from utils.data_reader import read_products_json
+from utils.data_reader import read_json_files
 
 def test_CA01_cart_badge(driver_logged):    #Caso para verificar que se muestre el numero de productos cuando se agrega al menos 1 al carrito
     inventory_page = InventoryPage(driver_logged)
@@ -43,7 +43,7 @@ def test_CA04_check_item_in_cart(driver_logged):    #Caso para validar que las c
 def test_CA05_check_item_name(driver_logged):
     inventory_page = InventoryPage(driver_logged)
     cart_page = CartPage(driver_logged)
-    listaProducJson = read_products_json()
+    listaProducJson = read_json_files("products.json")
     for producto in listaProducJson:
         inventory_page.agregar_producto_por_nombre(producto["nombre"])
 
