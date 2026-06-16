@@ -8,11 +8,14 @@
 
 El objetivo de este proyecto es aprender tecnologías y procesos de automatización QA. Para ello se automatiza el sitio web [saucedemo.com](https://www.saucedemo.com), una aplicación demo diseñada especialmente para prácticas de testing.
 
-## Tecnologías Utilizadas
+## Tecnologías y Herramientas Utilizadas
 
 - **Python** - Lenguaje principal
 - **Pytest** - Framework de testing
 - **Selenium WebDriver** - Automatización del navegador
+- **Requests** - Consumo y testing de APIs
+- **pytest-html** - Generación de reportes HTML
+- **Logging** - Sistema de registros de ejecución
 - **webdriver-manager** - Gestión automática del ChromeDriver
 - **Claude Sonnet 4.6 (Anthropic)** - Corrección de errores y revisión de buenas prácticas
 - **Git / GitHub** - Control de versiones
@@ -32,16 +35,38 @@ pip install -r requirements.txt
 ## Estructura del Proyecto
 
 ```
-├── conftest.py               # Fixtures compartidos (driver, login)
-├── funcAux/
-│   ├── LoginPage.py          # Función de login
-│   └── InventoryPage.py      # Funciones de agregar al carrito e ir al carrito
-├── testcases/
-│   ├── test_login.py         # Casos de prueba: Login (LO01-LO05)
-│   ├── test_inventario.py    # Casos de prueba: Inventario (IN01-IN04)
-│   └── test_carrito.py       # Casos de prueba: Carrito (CA01-CA04)
-├── selectors.md              # Referencia de selectores CSS/ID por página
-└── testcaseslist.md          # Lista de casos de prueba
+clase_16.9_EntregaFinal/
+├── pages/                          # Page Objects Model para UI
+│   ├── BasePage.py                # Clase base con selectores y métodos comunes
+│   ├── LoginPage.py               # Página de login
+│   ├── InventoryPage.py           # Página de catálogo de productos
+│   └── CartPage.py                # Página del carrito
+├── tests_ui/                       # Tests de interfaz de usuario
+│   ├── test_login.py              # Tests de login (LO01, LO02)
+│   ├── test_login_CSV.py          # Tests parametrizados de login (LO01 x3)
+│   ├── test_inventario.py         # Tests de inventario (IN01-IN04)
+│   └── test_carrito.py            # Tests de carrito (CA01-CA05)
+├── tests_api/                      # Tests de API
+│   ├── test_login_api.py          # Tests de autenticación API (APILO01-APILO02)
+│   └── test_users_api.py          # Tests de usuarios API (APIUS01-APIUS03)
+├── data/                           # Datos de prueba
+│   ├── users.csv                  # Credenciales parametrizadas
+│   ├── login_cases.json           # Casos de login para API
+│   └── products.json              # Lista de Productos para verificación
+├── utils/                          # Utilidades compartidas
+│   ├── data_reader.py             # Lector genérico de datos (CSV, JSON)
+│   ├── logger.py                  # Configuración del sistema de logging
+│   └── api_utils.py               # Configuración de APIs (URL base, headers)
+├── reports/                        # Reportes generados
+│   ├── screenshots/               # Capturas de pantalla en fallos
+│   └── logs/                       # Archivos de log con timestamps
+├── conftest.py                     # Configuración de pytest y fixtures
+├── pytest.ini                      # Configuración de pytest
+├── .gitignore                      # Archivos a ignorar en Git
+├── requirements.txt                # Dependencias del proyecto
+├── README.md                       # Este archivo
+├── selectors.md                    # Referencia de selectores por página
+└── testcaseslist.md               # Documentación de casos de prueba
 ```
 
 

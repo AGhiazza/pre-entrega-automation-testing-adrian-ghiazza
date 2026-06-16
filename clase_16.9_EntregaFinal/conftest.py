@@ -4,6 +4,11 @@ from pages.LoginPage import LoginPage
 from utils.data_reader import read_users_csv
 import pathlib
 from pytest_html import extras
+from datetime import datetime
+
+# Crear carpetas de reportes automáticamente
+pathlib.Path("reports").mkdir(exist_ok=True)
+pathlib.Path("logs").mkdir(exist_ok=True)
 
 @pytest.fixture #el .fixture es un decorador o etiqueta quie marca esta función como reutilizable para que varios test la pueden usar como parametro
 def driver(): 
@@ -43,8 +48,10 @@ def pytest_runtest_makereport(item, call): #Funcion reservada de Pytest, se ejec
             target = pathlib.Path("reports/screenshots") #guarda la dirección donde se guardará el reporte
             target.mkdir(parents=True, exist_ok=True) #crea la carpeta, "parents=true" si la carpeta padre /reports no existe la crea, exist_ok=true evita que falle si la carpeta ya existe
 
-            file_name = target / f"{item.name}.png" #Guarda la ruta entera "reports/screenshots/test_CA01_cart_badge.png" item.name trae el "name" del test
+            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
+            file_name = target / f"{item.name}_{timestamp}.png" #Guarda la ruta entera "reports/screenshots/test_CA01_cart_badge.png" item.name trae el "name" del test
+            
             driver.save_screenshot(str(file_name)) #Guarda la screenshot
 
             extra = getattr(report, "extras", []) #Obtiene lista de extras que ya tenga el reporte

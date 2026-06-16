@@ -1,10 +1,11 @@
 import requests
 import pytest
 from utils.api_utils import BASE_URL, HEADERS
-
+from utils.logger import logger
 
 @pytest.mark.api
 def test_APIUS01_obtener_usuario():
+    logger.info("=== Iniciando test_APIUS01_obtener_usuario ===")
     response = requests.get(BASE_URL+"/api/users/2", headers=HEADERS)
 
     assert response.status_code == 200
@@ -13,6 +14,7 @@ def test_APIUS01_obtener_usuario():
 
 @pytest.mark.api
 def test_APIUS02_crear_usuario():
+    logger.info("=== Iniciando test_APIUS02_crear_usuario ===")
     body = {
         "name": "juancho",
         "email": "aghiazzabna@gmail.com",
@@ -30,6 +32,7 @@ def test_APIUS02_crear_usuario():
 
 @pytest.mark.api
 def test_APIUS03_eliminar_usuario():
+    logger.info("=== Iniciando test_APIUS03_eliminar_usuario ===")
     response = requests.delete(BASE_URL+"/api/users/2", headers=HEADERS)
 
     assert response.status_code == 204

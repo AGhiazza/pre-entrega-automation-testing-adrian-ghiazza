@@ -2,11 +2,12 @@ import requests
 from utils.api_utils import BASE_URL, HEADERS
 import pytest
 from utils.data_reader import read_json_files
+from utils.logger import logger
 
 @pytest.mark.api
 @pytest.mark.parametrize("user", read_json_files("login_cases.json"), ids=[elemento["descripcion"] for elemento in read_json_files("login_cases.json")])
 def test_APILO01_login(user):
-    
+    logger.info("=== Iniciando test_APILO01_login ===")
     response = requests.post(BASE_URL+"/api/login", headers=HEADERS, json=user)
 
     if user["valido"] == "true":

@@ -4,10 +4,11 @@ from selenium.webdriver.support.ui import WebDriverWait #WebDriverWait hace espe
 from pages.LoginPage import LoginPage #Importa la clase LoginPage desde LoginPage.py adentro de la carpeta pages
 from selenium.webdriver.support import expected_conditions as EC #expected_conditions es un módulo que tiene condiciones predefinidas para usar con WebDriverWait. Por ejemplo "esperá hasta que pase X"
                                                                  #Se usa el "as EC" para acortar expected_conditions, escribir EC = Expected_conditions
-
+from utils.logger import logger
 
 @pytest.mark.ui
 def test_LO01_login_exitoso(driver):
+    logger.info("=== Iniciando test_LO01_login_exitoso ===")
     login_page = LoginPage(driver) # El objeto login_page almacena la clase LoginPage con el driver
 
     
@@ -22,9 +23,12 @@ def test_LO01_login_exitoso(driver):
 
 @pytest.mark.ui
 def test_LO02_login_fallido_campos_vacios(driver):
+    logger.info("=== Iniciando test_LO02_login_fallido_campos_vacios ===")
     login_page = LoginPage(driver)
+    logger.info(f"Abriendo pagina web{driver.current_url}")
     login_page.abrir_pagina()
+    logger.info("Intentando login")
     login_page.click_login()
+    logger.info("Verificando mensaje de error")
     mensaje_error = login_page.mensaje_error()
-    #assert "Username is required" in mensaje_error, "No se visualiza el mensaje de error correcto"
     assert "hola" in mensaje_error, "No se visualiza el mensaje de error correcto"

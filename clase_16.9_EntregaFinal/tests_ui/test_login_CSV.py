@@ -12,6 +12,7 @@ from utils.logger import logger
 @pytest.mark.ui
 @pytest.mark.parametrize("user", read_users_csv(), ids=[elemento["descripcion"] for elemento in read_users_csv()]) #Usa el valor de la columna "descripcion" del archivo CSV como ID del caso en los resultados.
 def test_LO01_login(driver, user):
+    logger.info(f"=== Iniciando test_LO01_login con usuario -{user['usuario']}- ===")
     login_page = LoginPage(driver)
     logger.info(f"Intentando login con usuario: {user['usuario']}")
     login_page.login_completo(user["usuario"], user["contrasena"])
