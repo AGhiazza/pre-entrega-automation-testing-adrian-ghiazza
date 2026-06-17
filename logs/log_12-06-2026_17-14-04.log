@@ -1,6 +1,0 @@
-2026-06-12 17:14:09,879 INFO TT 26143 - Automatizacion QA - Intentando login con usuario: standard_user
-2026-06-12 17:14:40,610 INFO TT 26143 - Automatizacion QA - Login exitoso - redirigido a inventario
-2026-06-12 17:14:45,405 INFO TT 26143 - Automatizacion QA - Intentando login con usuario: usuario_incorrecto
-2026-06-12 17:15:16,264 INFO TT 26143 - Automatizacion QA - Login fallido - verificando mensaje de error
-2026-06-12 17:15:22,597 INFO TT 26143 - Automatizacion QA - Intentando login con usuario: standard_user
-2026-06-12 17:15:53,244 INFO TT 26143 - Automatizacion QA - Login fallido - verificando mensaje de error

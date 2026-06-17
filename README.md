@@ -1,4 +1,4 @@
-# TalentoTech - Comisión 26143 - Automomatización QA - Adrian Ghiazza
+# TalentoTech - Comisión 26143 - Automatización QA - Adrian Ghiazza
 
 ## Descripción
 
@@ -72,35 +72,70 @@ clase_16.9_EntregaFinal/
 
 ## Casos de Prueba
 
+### UI - Login
+| ID | Descripción | Datos |
+|----|-------------|-------|
+| LO01 | Login exitoso | standard_user / secret_sauce |
+| LO02 | Login fallido sin campos | - (campos vacíos) |
+| LO01 (parametrizado) | Login - caso válido | CSV fila 1 |
+| LO01 (parametrizado) | Login - usuario inválido | CSV fila 2 |
+| LO01 (parametrizado) | Login - contraseña inválida | CSV fila 3 |
+
+### UI - Inventario
 | ID | Descripción |
 |----|-------------|
-| LO01 | Login exitoso con credenciales válidas |
-| IN01 | Verificar título correcto de la página de inventario |
-| IN02 | Comprobar que existan productos visibles |
-| IN03 | Validar presencia de elementos de interfaz (menú, filtros, carrito) |
-| IN04 | Verificar nombre y precio del primer producto |
-| CA01 | Agregar un producto y verificar que aparezca el badge del carrito |
-| CA02 | Agregar dos productos y verificar que el contador incremente correctamente |
-| CA03 | Navegar al carrito y verificar la redirección correcta |
-| CA04 | Verificar que el producto agregado aparezca correctamente en el carrito |
+| IN01 | Verificar título de la página |
+| IN02 | Comprobar visibilidad de productos |
+| IN03 | Validar elementos de UI (menú, filtros, carrito) |
+| IN04 | Validar nombre y precio del producto |
+
+### UI - Carrito
+| ID | Descripción |
+|----|-------------|
+| CA01 | Badge de carrito visible al agregar |
+| CA02 | Contador incremental con múltiples productos |
+| CA03 | Navegación a carrito funciona |
+| CA04 | Datos de producto coinciden entre inventario y carrito |
+| CA05 | Validar productos del JSON en carrito |
+
+### API - Login
+| ID | Descripción | Esperado |
+|----|-------------|----------|
+| APILO01 | Login exitoso | 200 + token |
+| APILO02 | Login sin contraseña | 400 |
+
+### API - Usuarios
+| ID | Descripción | Método |
+|----|-------------|--------|
+| APIUS01 | Obtener usuario | GET |
+| APIUS02 | Crear usuario | POST |
+| APIUS03 | Eliminar usuario | DELETE |
 
 
-## Ejecución de las Pruebas
+## Ejecución de Pruebas
 
-**Todos los tests:**
+### Todos los tests
 ```bash
-pytest clase_16.9_EntregaFinal/testcases -v
+pytest -v
 ```
 
-**Por módulo:**
+### Solo tests de UI
 ```bash
-pytest clase_16.9_EntregaFinal/testcases/test_login.py -v
-pytest clase_16.9_EntregaFinal/testcases/test_inventario.py -v
-pytest clase_16.9_EntregaFinal/testcases/test_carrito.py -v
+pytest -m ui -v
 ```
 
+### Solo tests de API
+```bash
+pytest -m api -v
+```
 
-## Opciones útiles de Pytest
+### Tests específicos
+```bash
+# Usar el nombre del archivo correspondiente
+pytest tests_ui/test_login.py -v
+```
+
+## Opciones útiles
 
 | Opción | Descripción |
 |--------|-------------|
@@ -113,10 +148,26 @@ Se pueden combinar, por ejemplo: `pytest testcases -v -s --html=reports/reporte.
 
 ## Generar reporte HTML:
 
-```bash
-pytest clase_16.9_EntregaFinal/testcases -v --html=reports/reporte.html
-```
-> **Nota:** Usar `--self-contained-html` para generar un reporte independiente que no requiera la carpeta `assets`:
-> ```
-> pytest clase_16.9_EntregaFinal/testcases -v --html=clase_16.9_EntregaFinal/reports/reporte.html --self-contained-html
-> ```
+### Reporte HTML
+- Ubicación: `reports/reporte.html`
+- Contiene: Resultado de cada test, duración, capturas en fallos
+- Comando: `pytest --html=reporte.html --self-contained-html`
+
+### Logs
+- Ubicación: `logs/log_YYYY-MM-DD_HH-MM-SS.log`
+- Contiene: Cada acción de los tests con timestamp
+- Útil para: Depuración post-ejecución
+
+### Capturas de Pantalla
+- Ubicación: `reports/screenshots/`
+- Se genera: Solo cuando un test falla
+- Formato: PNG con timestamp
+
+## Notas Importantes
+
+- Los tests de UI requieren **Chrome instalado** en el sistema
+- El proyecto usa **encoding UTF-8** para soportar caracteres especiales
+- Las rutas se construyen con `pathlib` para compatibilidad multiplataforma (Windows/Linux/Mac)
+- El fixture `driver_logged` busca el primer usuario con `"valido": "true"` en el CSV
+- El logging se inicializa automáticamente al importar `logger.py`
+- Las capturas de pantalla se toman automáticamente solo cuando un test falla

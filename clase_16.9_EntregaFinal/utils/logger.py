@@ -2,7 +2,7 @@ import logging
 import pathlib
 from datetime import datetime
 
-logs_dir = pathlib.Path("logs") 
+logs_dir = pathlib.Path("reports/logs") 
 logs_dir.mkdir(exist_ok=True)   #Crea la carpeta si no existe
 
 timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")    #Genera timestamp con el horario actual
