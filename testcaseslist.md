@@ -1,21 +1,38 @@
-Login:
+### UI - Login
+| ID | Descripción | Datos |
+|----|-------------|-------|
+| LO01 | Login exitoso | standard_user / secret_sauce |
+| LO02 | Login fallido sin campos | - (campos vacíos) |
+| LO01 (parametrizado) | Login - caso válido | CSV fila 1 |
+| LO01 (parametrizado) | Login - usuario inválido | CSV fila 2 |
+| LO01 (parametrizado) | Login - contraseña inválida | CSV fila 3 |
 
-LO01 - Realizar un login exitoso.
-LO02 - Intentar realizar un login con todos los campos vacios y verificar el error.
-LO03 - Intentar realizar un login con el usuario vacio y verificar el error.
-LO04 - Intentar realizar un login con la password vacia y verificar el error.
-LO05 - Intentar realizar un login con lo valores erroneos y verificar el error.
+### UI - Inventario
+| ID | Descripción |
+|----|-------------|
+| IN01 | Verificar título de la página |
+| IN02 | Comprobar visibilidad de productos |
+| IN03 | Validar elementos de UI (menú, filtros, carrito) |
+| IN04 | Validar nombre y precio del producto |
 
-Inventory (MainPage):
+### UI - Carrito
+| ID | Descripción |
+|----|-------------|
+| CA01 | Badge de carrito visible al agregar |
+| CA02 | Contador incremental con múltiples productos |
+| CA03 | Navegación a carrito funciona |
+| CA04 | Datos de producto coinciden entre inventario y carrito |
+| CA05 | Validar productos del JSON en carrito |
 
-IN01 - Verificar se visualice el titulo correcto.
-IN02 - Comprobar que existan productos visibles en la página.
-IN03 - Validar que elementos importantes de la interfaz estén presentes (menú, filtros, etc.).
-IN04 - Verificar nombre y precio del primer producto.
+### API - Login
+| ID | Descripción | Esperado |
+|----|-------------|----------|
+| APILO01 | Login exitoso | 200 + token |
+| APILO02 | Login sin contraseña | 400 |
 
-Cart:
-
-CA01 - Añadir un producto al carrito y verificar el contador aparezca.
-CA02 - Añadir mas de un producto al carrito y verificar el contador incremente correctamente.
-CA03 - Ingresar al carrito y verificar la navegación correcta.
-CA04 - Agregar un producto al carrito y verificar se visualice correctamente en el mismo.
+### API - Usuarios
+| ID | Descripción | Método |
+|----|-------------|--------|
+| APIUS01 | Obtener usuario | GET |
+| APIUS02 | Crear usuario | POST |
+| APIUS03 | Eliminar usuario | DELETE |

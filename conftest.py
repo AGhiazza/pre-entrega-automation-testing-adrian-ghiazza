@@ -5,6 +5,7 @@ from utils.data_reader import read_users_csv
 import pathlib
 from pytest_html import extras
 from datetime import datetime
+from pytest_metadata.plugin import metadata_key
 
 # Crear carpetas de reportes automáticamente
 pathlib.Path("reports").mkdir(exist_ok=True)
@@ -57,3 +58,12 @@ def pytest_runtest_makereport(item, call): #Funcion reservada de Pytest, se ejec
             extra = getattr(report, "extras", []) #Obtiene lista de extras que ya tenga el reporte
             extra.append(extras.png(f"screenshots/{item.name}_{timestamp}.png")) #agrega la captura a la lista
             report.extras = extra #guarda la lista actualizada de vuelta en el reporte HTML
+
+#Configuraciones del reporte HTML
+def pytest_html_report_title(report):
+    report.title = "TT26143 - Automation Framework - Saucedemo"
+
+def pytest_configure(config):
+    config.stash[metadata_key]["Proyecto"] = "TT26143 - Automation Framework - Saucedemo"
+    config.stash[metadata_key]["Autor"] = "Adrian Ghiazza"
+    config.stash[metadata_key]["Comisión"] = "26143"
