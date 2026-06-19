@@ -1,20 +1,47 @@
-name:
+name: CI TT26143 - Automation Framework Saucedemo
+
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main ]
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    env:
-      PYTHON_VERSION: '3.14'
-      PIP_CACHE: ~/.cache/pip
-
     steps:
       - name: Checkout código
-        uses: actions/cache@v4
+        uses: actions/checkout@v4
+
+      - name: Instalar Python 3.12
+        uses: actions/setup-python@v5
         with:
-          path ${{ env.PIP_CACHE }}
-                            
+          python-version: '3.12'
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Instalar Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Crear directorios de reportes
+        run: mkdir -p reports/screenshots reports/logs
+
+      - name: Ejecutar tests API
+        run: pytest tests_api/ -v -m api
+
+      - name: Ejecutar tests UI
+        run: pytest tests_ui/ -v -m ui --html=reports/reporte.html --self-contained-html
+
+      - name: Ejecutar Behave
+        run: behave features/
+
+      - name: Subir reportes
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: reports/
+          retention-days: 90
