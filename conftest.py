@@ -15,7 +15,10 @@ pathlib.Path("reports/logs").mkdir(exist_ok=True)
 def driver(): 
     options = webdriver.ChromeOptions() #Crea la variable "options" y guarda la configuración de chrome
     options.add_argument("--incognito") #Agrega argumento incognito a las opciones de Chrome, en este caso, los argumentos son parametros para modificar el comportamiento del navegador
-    
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+
     driver = webdriver.Chrome(options=options) #abre chrome con las opciones configuradas que se guardaron antes y se guarda todo en la variable driver.
                                                #la variable driver es la que usan los tests para interactuar con el navegador.
 
