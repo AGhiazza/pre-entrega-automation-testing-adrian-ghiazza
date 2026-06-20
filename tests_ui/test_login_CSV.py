@@ -26,5 +26,4 @@ def test_LO01_login(driver, user):
     else:
         logger.info("Login fallido - verificando mensaje de error")
         error = login_page.mensaje_error()
-        assert "Epic sadface" in error                                                                                        #Si no, el test falla con el mensaje de error "No se visualiza la pagina del inventario".
-
+        assert "Epic sadface" in error

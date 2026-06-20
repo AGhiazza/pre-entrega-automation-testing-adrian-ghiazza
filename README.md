@@ -4,37 +4,43 @@
 
 ## Descripción
 
-El objetivo de este proyecto es aprender tecnologías y procesos de automatización QA. Para ello se automatiza el sitio web [saucedemo.com](https://www.saucedemo.com), una aplicación demo diseñada especialmente para prácticas de testing.
+El objetivo de este proyecto es aprender tecnologías y procesos de automatización QA. Para ello se crea un Framework de automatización integral que combina pruebas de UI con Selenium, pruebas de API con Requests y pruebas BDD con Behave/Gherkin. El proyecto automatiza el sitio web [saucedemo.com](https://www.saucedemo.com), una aplicación demo diseñada especialmente para prácticas de testing, aplicando patrones de diseño profesionales y buenas prácticas de la industria.
 
 ## Tecnologías y Herramientas Utilizadas
 
-- **Python** - Lenguaje principal
-- **Pytest** - Framework de testing
+- **Python 3.14** - Lenguaje principal
+- **Pytest 9.0** - Framework de testing
 - **Selenium WebDriver** - Automatización del navegador
-- **Requests** - Consumo y testing de APIs
-- **pytest-html** - Generación de reportes HTML
+- **Requests 2.34** - Consumo y testing de APIs
+- **Behave 1.3.3** - Framework de BDD (Behavior-Driven Development)
+- **pytest-html 4.2** - Generación de reportes HTML
+- **pytest-check 2.8** - Soft assertions (múltiples validaciones por test)
+- **Faker 40.23** - Generación de datos dinámicos para pruebas
+- **pytest-metadata 3.1** - Metadata en reportes HTML
 - **Logging** - Sistema de registros de ejecución
 - **webdriver-manager** - Gestión automática del ChromeDriver
-- **Claude Sonnet 4.6 (Anthropic)** - Corrección de errores y revisión de buenas prácticas
+- **GitHub Actions** - Pipeline de CI/CD automático
+- **Claude Sonnet 4.6 (Anthropic)** - Asistencia en desarrollo
 - **Git / GitHub** - Control de versiones
-
 
 ## Instalación de Dependencias
 
-1. Instalar [Python](https://www.python.org/downloads/) y [Visual Studio Code](https://code.visualstudio.com/).
-2. Abrir la carpeta raíz del proyecto en Visual Studio Code.
-3. Abrir una terminal (`Terminal > Nueva Terminal`) y ejecutar el siguientes comando para instalar todas las dependencias:
+1. Instalar [Python](https://www.python.org/downloads/) (versión 3.10+) y [Visual Studio Code](https://code.visualstudio.com/).
+2. Clonar el repositorio y abrir la carpeta raíz en VS Code.
+3. Abrir una terminal (`Terminal > Nueva Terminal`) y ejecutar el siguiente comando para instalar todas las dependencias:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-
 ## Estructura del Proyecto
 
 ```
 TT26143-Automation-Framework-Saucedemo/
-├── pages/                          # Page Objects Model para UI
+├── .github/
+│   └── workflows/
+│       └── ci.yml                  # Pipeline de CI/CD con GitHub Actions
+├── pages/                          # Page Object Model para UI
 │   ├── BasePage.py                 # Clase base con selectores y métodos comunes
 │   ├── LoginPage.py                # Página de login
 │   ├── InventoryPage.py            # Página de catálogo de productos
@@ -44,9 +50,14 @@ TT26143-Automation-Framework-Saucedemo/
 │   ├── test_login_CSV.py           # Tests parametrizados de login (LO01 x3)
 │   ├── test_inventario.py          # Tests de inventario (IN01-IN04)
 │   └── test_carrito.py             # Tests de carrito (CA01-CA05)
-├── tests_api/                      # Tests de API
+├── tests_api/                      # Tests de API REST
 │   ├── test_login_api.py           # Tests de autenticación API (APILO01-APILO02)
 │   └── test_users_api.py           # Tests de usuarios API (APIUS01-APIUS03)
+├── features/                       # Tests BDD con Behave/Gherkin
+│   ├── login.feature               # Escenarios de login en lenguaje Gherkin
+│   ├── environment.py              # Setup y teardown de Behave
+│   └── steps/
+│       └── login_steps.py          # Implementación de los pasos Gherkin
 ├── data/                           # Datos de prueba
 │   ├── users.csv                   # Credenciales parametrizadas
 │   ├── login_cases.json            # Casos de login para API
@@ -56,6 +67,7 @@ TT26143-Automation-Framework-Saucedemo/
 │   ├── logger.py                   # Configuración del sistema de logging
 │   └── api_utils.py                # Configuración de APIs (URL base, headers)
 ├── reports/                        # Reportes generados (autogenerado)
+│   ├── reporte.html                # Reporte HTML de pytest
 │   ├── screenshots/                # Capturas de pantalla en fallos
 │   └── logs/                       # Archivos de log con timestamps
 ├── conftest.py                     # Fixtures y hooks compartidos
@@ -67,6 +79,16 @@ TT26143-Automation-Framework-Saucedemo/
 └── testcaseslist.md                # Documentación de casos de prueba
 ```
 
+## Patrones y Convenciones Implementadas
+
+- **Page Object Model (POM)** con herencia de `BasePage` para reutilizar selectores y métodos comunes
+- **Fixtures** reutilizables en `conftest.py` (`driver`, `driver_logged`)
+- **Parametrización** con CSV y JSON para data-driven testing
+- **Soft assertions** con `pytest-check` para múltiples validaciones por test
+- **Datos dinámicos** con `Faker` para generación de datos realistas en tests de API
+- **BDD** con Behave y Gherkin para escenarios legibles por negocio
+- **Logging** con timestamps en `reports/logs/`
+- **Capturas automáticas** en fallos integradas al reporte HTML
 
 ## Casos de Prueba
 
@@ -74,7 +96,7 @@ TT26143-Automation-Framework-Saucedemo/
 | ID | Descripción | Datos |
 |----|-------------|-------|
 | LO01 | Login exitoso | standard_user / secret_sauce |
-| LO02 | Login fallido sin campos | - (campos vacíos) |
+| LO02 | Login fallido sin campos | Campos vacíos |
 | LO01 (parametrizado) | Login - caso válido | CSV fila 1 |
 | LO01 (parametrizado) | Login - usuario inválido | CSV fila 2 |
 | LO01 (parametrizado) | Login - contraseña inválida | CSV fila 3 |
@@ -90,25 +112,30 @@ TT26143-Automation-Framework-Saucedemo/
 ### UI - Carrito
 | ID | Descripción |
 |----|-------------|
-| CA01 | Badge de carrito visible al agregar |
+| CA01 | Badge de carrito visible al agregar producto |
 | CA02 | Contador incremental con múltiples productos |
-| CA03 | Navegación a carrito funciona |
+| CA03 | Navegación al carrito funciona correctamente |
 | CA04 | Datos de producto coinciden entre inventario y carrito |
-| CA05 | Validar productos del JSON en carrito |
+| CA05 | Validar productos del JSON contra el carrito |
 
-### API - Login
-| ID | Descripción | Esperado |
-|----|-------------|----------|
-| APILO01 | Login exitoso | 200 + token |
-| APILO02 | Login sin contraseña | 400 |
+### API - Login (reqres.in)
+| ID | Descripción | Método | Esperado |
+|----|-------------|--------|----------|
+| APILO01 | Login exitoso | POST | 200 + token |
+| APILO02 | Login sin contraseña | POST | 400 |
 
-### API - Usuarios
-| ID | Descripción | Método |
-|----|-------------|--------|
-| APIUS01 | Obtener usuario | GET |
-| APIUS02 | Crear usuario | POST |
-| APIUS03 | Eliminar usuario | DELETE |
+### API - Usuarios (reqres.in)
+| ID | Descripción | Método | Esperado |
+|----|-------------|--------|----------|
+| APIUS01 | Obtener usuario y validar tiempo de respuesta | GET | 200, < 2s |
+| APIUS02 | Crear usuario con datos dinámicos (Faker) | POST | 201 |
+| APIUS03 | Eliminar usuario | DELETE | 204 |
 
+### BDD - Login (Behave/Gherkin)
+| Escenario | Descripción |
+|-----------|-------------|
+| Login exitoso | Credenciales válidas redirigen al inventario |
+| Login inválido (x5) | Distintas combinaciones inválidas muestran error correcto |
 
 ## Ejecución de Pruebas
 
@@ -127,13 +154,18 @@ pytest -m ui -v
 pytest -m api -v
 ```
 
-### Tests específicos
+### Tests BDD con Behave
 ```bash
-# Usar el nombre del archivo correspondiente
-pytest tests_ui/test_login.py -v
+behave features/
 ```
 
-## Opciones útiles
+### Tests específicos
+```bash
+pytest tests_ui/test_login.py -v
+pytest tests_api/test_users_api.py -v
+```
+
+### Opciones útiles de pytest
 
 | Opción | Descripción |
 |--------|-------------|
@@ -141,31 +173,41 @@ pytest tests_ui/test_login.py -v
 | `-s` | Muestra los `print()` en la consola durante la ejecución |
 | `--html=ruta` | Genera un reporte HTML con los resultados |
 
-Se pueden combinar, por ejemplo: `pytest testcases -v -s --html=reports/reporte.html`
-
-
-## Generar reporte HTML:
+## Reportes Generados
 
 ### Reporte HTML
-- Ubicación: `reports/reporte.html`
-- Contiene: Resultado de cada test, duración, capturas en fallos
-- Comando: `pytest --html=reporte.html --self-contained-html`
+- **Ubicación:** `reports/reporte.html`
+- **Contiene:** Resultado de cada test, duración, capturas en fallos, metadata del proyecto
+- **Se genera:** Automáticamente en cada ejecución de pytest
 
 ### Logs
-- Ubicación: `logs/log_YYYY-MM-DD_HH-MM-SS.log`
-- Contiene: Cada acción de los tests con timestamp
-- Útil para: Depuración post-ejecución
+- **Ubicación:** `reports/logs/log_YYYY-MM-DD_HH-MM-SS.log`
+- **Contiene:** Cada acción de los tests con timestamp
+- **Útil para:** Depuración post-ejecución
 
 ### Capturas de Pantalla
-- Ubicación: `reports/screenshots/`
-- Se genera: Solo cuando un test falla
-- Formato: PNG con timestamp
+- **Ubicación:** `reports/screenshots/`
+- **Se genera:** Automáticamente solo cuando un test de UI falla
+- **Formato:** `nombre_del_test_YYYY-MM-DD_HH-MM-SS.png`
+
+## CI/CD con GitHub Actions
+
+El proyecto incluye un pipeline automático que se ejecuta en cada push o pull request a `main`. El pipeline:
+
+1. Instala Python y dependencias
+2. Instala Chrome en el runner
+3. Ejecuta los tests de API
+4. Ejecuta los tests de UI en modo headless
+5. Ejecuta los escenarios BDD con Behave
+6. Sube los reportes como artefactos descargables (disponibles 90 días)
+
+El estado del pipeline se muestra en el badge al inicio de este README.
 
 ## Notas Importantes
 
 - Los tests de UI requieren **Chrome instalado** en el sistema
 - El proyecto usa **encoding UTF-8** para soportar caracteres especiales
 - Las rutas se construyen con `pathlib` para compatibilidad multiplataforma (Windows/Linux/Mac)
-- El fixture `driver_logged` busca el primer usuario con `"valido": "true"` en el CSV
-- El logging se inicializa automáticamente al importar `logger.py`
-- Las capturas de pantalla se toman automáticamente solo cuando un test falla
+- El fixture `driver_logged` busca automáticamente el primer usuario válido del CSV
+- Los reportes y logs se crean automáticamente al correr pytest
+- Las capturas de pantalla se integran automáticamente al reporte HTML

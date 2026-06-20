@@ -8,13 +8,7 @@ def read_users_csv():
     with open (ruta, newline="", encoding="utf-8") as file: #newline evita las lineas vacias
         reader = csv.DictReader(file)  #DictReader guarda cada linea como si fuera un diccionario
         return list(reader)     #
-    
-def read_products_json():
-    base = os.path.dirname(os.path.dirname(__file__)) 
-    ruta = os.path.join(base, "data", "products.json")
-    with open (ruta, encoding="utf-8") as file:
-        return json.load(file)
-    
+
 def read_json_files(archivo):
     base = os.path.dirname(os.path.dirname(__file__)) 
     ruta = os.path.join(base, "data", archivo)

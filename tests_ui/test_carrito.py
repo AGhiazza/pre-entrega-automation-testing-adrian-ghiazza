@@ -88,12 +88,3 @@ def test_CA05_check_item_name(driver_logged):
                 encontrado = True
                 break
         assert encontrado, f"Producto incorrecto o faltante: {productoJson["nombre"]}"
-
-'''
-    nombreInv = str(inventory_page.obtener_nombre_producto(0)) #Guarda el nombre del producto en el inventario.
-    inventory_page.agregar_al_carrito(0)
-    inventory_page.ir_al_carrito()
-    nombreCar = str(cart_page.obtener_nombre_producto(0))  #Guarda el nombre del producto en el carrito.
-    assert nombreInv == nombreCar, "El nombre del producto en el catálogo difiere al del carrito"   
-    assert nombreJsn == nombreInv, "El nombre del producto en el catálogo difiere al de la base"
-    '''    
