@@ -3,6 +3,7 @@ from pages.InventoryPage import InventoryPage
 from pages.CartPage import CartPage
 from utils.data_reader import read_json_files
 from utils.logger import logger
+import pytest_check as check
 
 @pytest.mark.ui
 def test_CA01_cart_badge(driver_logged):    #Caso para verificar que se muestre el numero de productos cuando se agrega al menos 1 al carrito
@@ -59,9 +60,9 @@ def test_CA04_check_item_in_cart(driver_logged):    #Caso para validar que las c
     descrpCar = str(cart_page.obtener_descripcion_producto(0))
     precioCar = str(cart_page.obtener_precio_producto(0))
     logger.info("Comparando valores de Inventario vs Carrito")
-    assert nombreInv == nombreCar, "El nombre del producto en el catálogo difiere al del carrito"   #Compara los nombres del producto fuera en el invetorio contra los del carrito
-    assert precioInv == precioCar, "El precio del producto en el catálogo difiere al del carrito"
-    assert descrpInv == descrpCar, "La descripción del producto en el catálogo difiere a la del carrito"
+    check.equal (nombreInv, nombreCar, "El nombre del producto en el catálogo difiere al del carrito")   #Compara los nombres del producto fuera en el invetorio contra los del carrito
+    check.equal (precioInv, precioCar, "El precio del producto en el catálogo difiere al del carrito")
+    check.equal (descrpInv, descrpCar, "La descripción del producto en el catálogo difiere a la del carrito")
 
 @pytest.mark.ui
 def test_CA05_check_item_name(driver_logged):

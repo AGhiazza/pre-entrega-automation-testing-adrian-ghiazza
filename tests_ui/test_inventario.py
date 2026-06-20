@@ -1,6 +1,7 @@
 import pytest
 from pages.InventoryPage import InventoryPage
 from utils.logger import logger
+import pytest_check as check
 
 @pytest.mark.ui
 def test_IN01_title_validation(driver_logged):  #Caso para validar el titulo de la pagina
@@ -29,9 +30,9 @@ def test_IN03_ui_validation(driver_logged):     #Caso para buscar diversos eleme
     filtro = inventory_page.obtener_ordenar ()
     logger.info("Verificando botón carrito")
     carrito = inventory_page.obtener_carrito ()
-    assert hamburguesa.is_displayed() , "No se visualiza el icono hamburguesa"  #se usa el metodo .is_displayed() para verificar que el elemento sea visible en la pagina
-    assert filtro.is_displayed(), "No se visualiza el icono de filtro"
-    assert carrito.is_displayed(), "No se visualiza el icono de carrito"
+    check.is_true(hamburguesa.is_displayed() , "No se visualiza el icono hamburguesa")  #se usa el metodo .is_displayed() para verificar que el elemento sea visible en la pagina
+    check.is_true (filtro.is_displayed(), "No se visualiza el icono de filtro")
+    check.is_true (carrito.is_displayed(), "No se visualiza el icono de carrito")
 
 @pytest.mark.ui
 def test_IN04_product_validation(driver_logged):    #Caso para validar que el nombre y precio del producto se visualice (tomando el primer producto que encuentre)
@@ -43,5 +44,5 @@ def test_IN04_product_validation(driver_logged):    #Caso para validar que el no
     logger.info("Obteniendo precio de producto")
     precio = inventory_page.obtener_precio_producto(0)
     print(f"Nombre: {nombre} | Precio: {precio}") #imprime los valores recuperados para nombre y precio con la variable .text
-    assert nombre != "", "No se visualiza el nombre del primer producto" #Verifica que contenga un valor
-    assert precio != "", "No se visualiza el precio del primer producto"
+    check.is_true (nombre != "", "No se visualiza el nombre del primer producto") #Verifica que contenga un valor
+    check.is_true (precio != "", "No se visualiza el precio del primer producto")
