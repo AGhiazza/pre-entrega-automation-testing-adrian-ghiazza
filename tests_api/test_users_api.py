@@ -5,7 +5,7 @@ from utils.logger import logger
 from faker import Faker
 
 @pytest.mark.api
-def test_APIUS01_obtener_usuario():
+def test_APIUS01_obtener_usuario():     #Caso para validar que funciona un GET de un usuario especifico.
     logger.info("=== Iniciando test_APIUS01_obtener_usuario ===")
     response = requests.get(BASE_URL+"/api/users/2", headers=HEADERS)
 
@@ -13,7 +13,7 @@ def test_APIUS01_obtener_usuario():
     print (response.elapsed.total_seconds())
     assert response.elapsed.total_seconds() < 2 #menos de dos segundos
 
-@pytest.mark.api
+@pytest.mark.api        #Caso para validar creación de un usuario usando POST
 def test_APIUS02_crear_usuario():
     logger.info("=== Iniciando test_APIUS02_crear_usuario ===")
     fake = Faker()
@@ -34,7 +34,7 @@ def test_APIUS02_crear_usuario():
     assert "createdAt" in data, "No se generó la fecha de creación."
 
 @pytest.mark.api
-def test_APIUS03_eliminar_usuario():
+def test_APIUS03_eliminar_usuario():        #Caso para validar eliminación de un usuario usando DELETE
     logger.info("=== Iniciando test_APIUS03_eliminar_usuario ===")
     response = requests.delete(BASE_URL+"/api/users/2", headers=HEADERS)
 

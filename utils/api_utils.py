@@ -1,4 +1,4 @@
-#URL y Header
+#URL y Header de API
 BASE_URL = "https://reqres.in"
 
 HEADERS = {

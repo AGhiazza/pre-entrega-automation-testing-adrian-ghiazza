@@ -1,5 +1,5 @@
 import pytest
-from selenium import webdriver #importa el modulo webdriver que controla el navegador para hacer las pruebas
+from selenium import webdriver
 from pages.LoginPage import LoginPage
 from utils.data_reader import read_users_csv
 import pathlib
@@ -11,55 +11,51 @@ from pytest_metadata.plugin import metadata_key
 pathlib.Path("reports").mkdir(exist_ok=True)
 pathlib.Path("reports/logs").mkdir(exist_ok=True)
 
-@pytest.fixture #el .fixture es un decorador o etiqueta quie marca esta función como reutilizable para que varios test la pueden usar como parametro
-def driver(): 
-    options = webdriver.ChromeOptions() #Crea la variable "options" y guarda la configuración de chrome
-    options.add_argument("--incognito") #Agrega argumento incognito a las opciones de Chrome, en este caso, los argumentos son parametros para modificar el comportamiento del navegador
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--window-size=1920,1080")
+@pytest.fixture
+def driver(): # Fixture que abre Chrome con las opciones configuradas y lo cierra al terminar el test
+    options = webdriver.ChromeOptions() 
+    options.add_argument("--incognito") # Modo incógnito para evitar caché y cookies de sesiones anteriores
+    options.add_argument("--headless=new") # Modo sin interfaz visual
+    options.add_argument("--no-sandbox") # Requerido para correr en entornos Linux/CI
+    options.add_argument("--disable-dev-shm-usage") # Evita errores de memoria compartida en Linux
+    options.add_argument("--window-size=1920,1080") # Define resolución para evitar problemas de elementos fuera de pantalla
+    options.add_argument("--disable-gpu") # Desactiva GPU, recomendado en modo headless
 
-    options.add_argument("--disable-gpu")
+    driver = webdriver.Chrome(options=options) 
 
-    driver = webdriver.Chrome(options=options) #abre chrome con las opciones configuradas que se guardaron antes y se guarda todo en la variable driver.
-                                               #la variable driver es la que usan los tests para interactuar con el navegador.
+    yield driver # Punto de ejecución del test — todo lo anterior es setup, todo lo posterior es teardown
 
-    yield driver #marca la ejecución de la prueba, todo el código anterior (↑) se ejecuta antes que la prueba arranque
-                 #y todo lo posterior (↓) se ejecuta luego de finalizar la prueba
-
-    driver.quit() #Cierra el navegador
+    driver.quit() # Cierra el navegador al finalizar el test
 
 @pytest.fixture #Este fixture recibe el driver y llama a la funcion de login de LoginPage.py, devuelve el driver ya logueado
 def driver_logged(driver):
     login_page = LoginPage(driver)
     users = read_users_csv()
-    for user in users:  #For para buscar un registro cuyo valor para "valido" sea "T"rue"
+    for user in users:  #For para buscar un registro en el CSV cuyo valor para "valido" sea "True"
         if user["valido"] == "true":
             break
     login_page.login_completo(user["usuario"], user["contrasena"])
     return(driver)
 
-@pytest.hookimpl(tryfirst=True, hookwrapper=True) # tryfirst hace que corra este hook antes que el resto, wrapper hace que pause este hook (que normalmente se ejecuta solo antes) espere hasta que termine el test
-def pytest_runtest_makereport(item, call): #Funcion reservada de Pytest, se ejecuta 3 veces (setup, call, teardown) generando un reporte en cada oportunidad
-                                          #item es el test como objeto con su metadata y el call es esta instancia puntual de prueba
+@pytest.hookimpl(tryfirst=True, hookwrapper=True) 
+def pytest_runtest_makereport(item, call): 
+
     outcome = yield     #pausa el hook y espera que el test corra, guardando el resultado en outcome
 
-    report = outcome.get_result()   #get_result es un método que desenvuelve el contenido guardado en outcome con atributos como "report.when" "report.passed" y "report.failed"
+    report = outcome.get_result()   
 
-    # when puede ser = a setup (preparación), call(ejecución) o teardown(finalización)
     if report.when == "call" and report.failed:
-        driver = item.funcargs.get("driver") #item.funcargs es un diccionario que contiene todos los fixtures del test que se está ejecutando
+        driver = item.funcargs.get("driver") 
 
         if driver: #Si driver=true, el test es de UI, si es de API va a estar en "None"
             target = pathlib.Path("reports/screenshots") #guarda la dirección donde se guardará el reporte
-            target.mkdir(parents=True, exist_ok=True) #crea la carpeta, "parents=true" si la carpeta padre /reports no existe la crea, exist_ok=true evita que falle si la carpeta ya existe
+            target.mkdir(parents=True, exist_ok=True) #crea la carpeta
 
             timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
             file_name = target / f"{item.name}_{timestamp}.png" #Guarda la ruta entera "reports/screenshots/test_CA01_cart_badge.png" item.name trae el "name" del test
             
-            driver.save_screenshot(str(file_name)) #Guarda la screenshot
+            driver.save_screenshot(str(file_name)) 
 
             extra = getattr(report, "extras", []) #Obtiene lista de extras que ya tenga el reporte
             extra.append(extras.png(f"screenshots/{item.name}_{timestamp}.png")) #agrega la captura a la lista

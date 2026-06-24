@@ -1,5 +1,6 @@
 from pages.LoginPage import LoginPage
 from behave import given, when, then
+from utils.config import INVENTORY_PATH
 
 @given("el usuario está en la página de login")
 def step_abrir_login(context):
@@ -8,7 +9,7 @@ def step_abrir_login(context):
 
 @when("ingresa usuario '{usuario}' y contraseña '{contrasena}'")
 def step_ingresar_credenciales(context,usuario,contrasena):
-    if usuario == "VACIO":
+    if usuario == "VACIO": #Si el valor es VACIO, lo cambia por "" para que no falle al leer la información
         usuario = ""
     if contrasena == "VACIO":
         contrasena = ""
@@ -21,9 +22,9 @@ def step_click_login(context):
 
 @then("debería ver la página de inventario")
 def step_validar_login_exitoso(context):
-    assert "/inventory.html" in context.driver.current_url, "No se visualiza la pagina del inventario"
+    assert INVENTORY_PATH in context.driver.current_url, "No se visualiza la pagina del inventario"
 
 @then("debería ver el error '{mensaje}'")
 def step_validar_error_login(context, mensaje):
-    error = context.login_page.mensaje_error()
+    error = context.login_page.obtener_mensaje_error()
     assert mensaje in error, f"Mensaje de error esperado: {mensaje} | Recibido: {error}"

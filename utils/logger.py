@@ -7,7 +7,8 @@ logs_dir.mkdir(exist_ok=True, parents=True)   #Crea la carpeta si no existe
 
 timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")    #Genera timestamp con el horario actual
 
-logging.basicConfig(    # da configuracion al logging global
+#Configuracion del logging global
+logging.basicConfig(    
     encoding="utf-8",
     filename= logs_dir / f"log_{timestamp}.log",    #Donde guarda el log
     level=logging.INFO, #desde que nivel registrar

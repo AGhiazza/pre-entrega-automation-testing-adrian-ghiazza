@@ -44,11 +44,14 @@ class BasePage:
 
     # Métodos para carrito
 
-    def obtener_carrito(self):
+    def obtener_carrito(self):  #Método para verificar existencia del botón carrito
         return self.driver.find_element(*self.go_to_cart)
 
-    def obtener_cantidad_carrito(self):
+    def obtener_badge_carrito(self):
+        return self.driver.find_element(*self.cart_badge)
+
+    def obtener_cantidad_carrito(self): #Método para obtener número en el badge de carrito
         return self.driver.find_element(*self.cart_badge).text
     
-    def ir_al_carrito(self): #función para clickear en el botón de ir al carrito
-        self.driver.find_element(*self.go_to_cart).click() #busca el botón para ir al carrito
+    def ir_al_carrito(self): #Método para clickear en el botón de ir al carrito
+        self.driver.find_element(*self.go_to_cart).click() 
